@@ -20,14 +20,14 @@ header {
 
 .heading {
   color: #191b1d;
-  font-size: 50px;
+  font-size: 3.5vmax;
   text-align: center;
   margin-top: 2rem; }
 
-.theme-button {
+.theme-button, .danger-button {
   background-color: #5745f8;
   color: white; }
-  .theme-button:hover {
+  .theme-button:hover, .danger-button:hover {
     transition-property: background-color;
     transition-duration: 1s;
     background-color: white;
@@ -35,10 +35,8 @@ header {
     border-color: #5745f8; }
 
 .danger-button {
-  background-color: #960505;
-  color: white; }
+  background-color: #960505; }
   .danger-button:hover {
-    background-color: white;
     color: #960505;
     border-color: #960505;
     animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
@@ -57,6 +55,9 @@ header {
   @media (min-width: 992px) {
     .signup-form {
       width: 50%; } }
+  @media (orientation: portrait) {
+    .signup-form .form-group {
+      width: 100%; } }
 
 .form-group {
   margin-bottom: 1rem; }
@@ -73,6 +74,9 @@ footer {
   color: #5745f8;
   position: sticky;
   top: 25%; }
+@media (max-width: 992px) {
+  .arrow {
+    display: none; } }
 
 .task input[type="checkbox"] {
   display: none; }

@@ -1,5 +1,6 @@
 @import colors.sass
 $large-screen: 992px
+$small-screen: 600px
 
 body
   font-family: 'Lato', sans-serif
@@ -24,7 +25,7 @@ header
 
 .heading
   color: $dark-primary-color
-  font-size: 50px
+  font-size: 3.5vmax
   text-align: center
   margin-top: 2rem
 
@@ -40,13 +41,15 @@ header
     border-color: $theme-color
 
 .danger-button
+  @extend .theme-button
   background-color: $danger-color
-  color: $light-color
+  
   &:hover
-    background-color: $light-color
     color: $danger-color
     border-color: $danger-color
     animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both
+
+
 
 @keyframes shake
   10%, 90%
@@ -62,6 +65,10 @@ header
   width: 80%
   @media (min-width: $large-screen)
     width: 50%
+  
+  @media (orientation: portrait)
+    .form-group
+      width: 100%
 
 .form-group
   margin-bottom: 1rem
@@ -79,6 +86,13 @@ footer
     color: $theme-color
     position: sticky
     top: 25%
+  @media (max-width: $large-screen)
+    display: none
+
+// .tasks 
+//   .col ~ .col
+//     @media (max-width: $large-screen)
+//       display: none
 
 .task
   input[type="checkbox"]
