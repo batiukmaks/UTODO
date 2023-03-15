@@ -8,7 +8,7 @@ input:focus, input:active, button:focus, button:active, textarea:focus, textarea
 input, textarea {
   color: #191b1d !important; }
   input::placeholder, textarea::placeholder {
-    color: #dee2e6 !important; }
+    color: #b3b4b6 !important; }
 
 header {
   background-color: #5745f8; }
@@ -73,6 +73,19 @@ footer {
   color: #5745f8;
   position: sticky;
   top: 25%; }
+
+.task input[type="checkbox"] {
+  display: none; }
+.task input[type="checkbox"]:checked + label {
+  text-decoration: line-through;
+  color: #b3b4b6; }
+.task:hover {
+  color: #5745f8;
+  border-bottom: 1px solid #5745f8 !important; }
+.task > *:hover {
+  cursor: pointer; }
+.task label {
+  width: 100%; }
 
 .group-name {
   text-decoration: none; }

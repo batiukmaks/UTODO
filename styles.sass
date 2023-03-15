@@ -80,6 +80,25 @@ footer
     position: sticky
     top: 25%
 
+.task
+  input[type="checkbox"]
+    display: none
+
+  input[type="checkbox"]:checked + label
+    text-decoration: line-through
+    color: $dark-secondary-color
+
+  &:hover
+    color: $theme-color
+    border-bottom: 1px solid $theme-color!important
+
+  & > *
+    &:hover
+      cursor: pointer
+
+  label
+    width: 100%
+
 .group-name
   text-decoration: none
   &:link, &:visited
@@ -91,7 +110,7 @@ footer
   .nav-link
     color: $dark-primary-color
     border: 0 solid transparent
-    border-bottom: 1px solid $dark-secondary-color
+    border-bottom: 1px solid $borders-color
     margin-bottom: 0
 
     &:hover, &.active
