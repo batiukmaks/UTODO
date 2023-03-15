@@ -1,0 +1,106 @@
+body {
+  font-family: "Lato", sans-serif;
+  color: #191b1d; }
+
+input:focus, input:active, button:focus, button:active, textarea:focus, textarea:active, .btn:focus, .btn:active {
+  box-shadow: none !important; }
+
+input, textarea {
+  color: #191b1d !important; }
+  input::placeholder, textarea::placeholder {
+    color: #dee2e6 !important; }
+
+header {
+  background-color: #5745f8; }
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: white; }
+
+.heading {
+  color: #191b1d;
+  font-size: 50px;
+  text-align: center;
+  margin-top: 2rem; }
+
+.theme-button {
+  background-color: #5745f8;
+  color: white; }
+  .theme-button:hover {
+    transition-property: background-color;
+    transition-duration: 1s;
+    background-color: white;
+    color: #5745f8;
+    border-color: #5745f8; }
+
+.danger-button {
+  background-color: #960505;
+  color: white; }
+  .danger-button:hover {
+    background-color: white;
+    color: #960505;
+    border-color: #960505;
+    animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0); }
+  20%, 80% {
+    transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0); }
+  40%, 60% {
+    transform: translate3d(4px, 0, 0); } }
+.signup-form {
+  width: 80%; }
+  @media (min-width: 992px) {
+    .signup-form {
+      width: 50%; } }
+
+.form-group {
+  margin-bottom: 1rem; }
+  .form-group label {
+    margin-bottom: 0.5rem; }
+
+footer {
+  background-color: #5745f8;
+  color: white; }
+  footer .copyright {
+    font-size: 0.6rem; }
+
+.arrow button, .arrow button:hover, .arrow button:focus {
+  color: #5745f8;
+  position: sticky;
+  top: 25%; }
+
+.group-name {
+  text-decoration: none; }
+  .group-name:link, .group-name:visited {
+    color: #191b1d; }
+  .group-name:hover {
+    color: #5745f8; }
+
+.group-info-nav-item .nav-link {
+  color: #191b1d;
+  border: 0 solid transparent;
+  border-bottom: 1px solid #dee2e6;
+  margin-bottom: 0; }
+  .group-info-nav-item .nav-link:hover, .group-info-nav-item .nav-link.active {
+    color: #5745f8; }
+  .group-info-nav-item .nav-link.active {
+    border-bottom: 1px solid #5745f8; }
+
+.general-info .form-control::placeholder, .general-info .form-control {
+  color: #191b1d;
+  background-color: white; }
+
+.members-list li:hover {
+  color: #5745f8;
+  border-bottom: 1px solid #5745f8 !important;
+  cursor: pointer; }
+@media (min-width: 992px) {
+  .members-list p:last-child {
+    text-align: end; } }
+
+/*# sourceMappingURL=styles.css.map */
