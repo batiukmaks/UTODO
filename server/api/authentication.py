@@ -2,11 +2,10 @@ from flask import redirect
 from flask_jwt_extended import JWTManager
 from models import *
 from schemas import *
-from app import app
 from db import get_session
 
-db = get_session()
-jwt = JWTManager(app)
+
+jwt = JWTManager()
 
 
 @jwt.user_identity_loader
@@ -17,4 +16,7 @@ def user_identity_lookup(user):
 @jwt.user_lookup_loader
 def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
-    return db.query(User).filter(User.id == identity).first()
+    db = get_session()
+    res = db.query(User).filter(User.id == identity).first()
+    db.close()
+    return res

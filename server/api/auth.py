@@ -33,18 +33,18 @@ def user():
     return jsonify(UserFullInfoSchema().dump(new_user))
 
 
-@auth.route("/user/login", methods=["GET"])
+@auth.route("/user/login", methods=["POST"])
 def login():
     session = get_session()
-    email = request.args.get("email")
-    password = request.args.get("password")
+    email = request.json.get("email")
+    password = request.json.get("password")
 
     user = session.query(User).filter(User.email == email).first()
     if user and check_password_hash(user.password, password):
         # return UserFullInfoSchema().dump(user)
         access_token = create_access_token(identity=user)
         user_schema = UserFullInfoSchema().dump(user)
-        user_schema['token'] = access_token
+        user_schema['access_token'] = access_token
         response = jsonify(user_schema)
         # set_access_cookies(response, access_token)
         return response

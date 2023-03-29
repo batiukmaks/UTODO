@@ -3,6 +3,7 @@ from flask_jwt_extended import jwt_required, current_user
 from db import get_session
 from models import *
 from schemas import *
+from sqlalchemy import and_
 
 group = Blueprint("group", __name__, url_prefix="/groups")
 
@@ -57,11 +58,11 @@ def group_by_id(group_id):
         return jsonify(GroupInfoSchema().dump(group))
     elif request.method == "PUT":
         updated_info = dict()
-        if request.args.get("name"):
-            updated_info["name"] = request.args.get("name")
-        if request.args.get("description"):
-            updated_info["description"] = request.args.get("description")
-
+        if request.json.get("name"):
+            updated_info["name"] = request.json.get("name")
+        if request.json.get("description"):
+            updated_info["description"] = request.json.get("description")
+        print(updated_info)
         for key, val in updated_info.items():
             session.query(Group).filter(Group.id == group.id).update({key: val})
         session.commit()
@@ -102,9 +103,9 @@ def group_members(group_id):
         return jsonify(res)
 
     elif request.method == "POST":
-        email = request.args.get("email")
+        email = request.json.get("email")
         user = session.query(User).filter(User.email == email).first()
-        if not user:
+        if not user or (already_member := session.query(GroupMember).filter(GroupMember.user_id == user.id).first()):
             abort(404)
         new_member = GroupMember(user_id=user.id, group_id=group_id)
         session.add(new_member)
@@ -137,6 +138,7 @@ def group_tasks(group_id):
         tasks = []
         for task in group_tasks:
             tasks.append(GroupTaskInfoSchema().dump(task))
+            tasks[-1]["status"] = session.query(UserTask).filter(and_(UserTask.user_id==current_user.id, UserTask.id==task.id)).first().status
         return jsonify(tasks)
     elif request.method == "POST":
         try:

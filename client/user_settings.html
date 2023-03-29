@@ -10,8 +10,9 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    
+
     <link rel="stylesheet" href="styles.css" />
+    <script src="scripts/user_settings.js"></script>
   </head>
   <body>
     <header class="text-center">
@@ -22,7 +23,9 @@
         </div>
       </div>
     </header>
-    <main class="d-flex flex-column align-items-center justify-content-center mb-5">
+    <main
+      class="d-flex flex-column align-items-center justify-content-center mb-5"
+    >
       <div class="heading mb-2">
         <p>Edit your account!</p>
       </div>
@@ -32,65 +35,63 @@
             <div class="form-group">
               <label>First name</label>
               <input
+                name="firstName"
                 class="form-control"
-                value="James"
                 required
               />
             </div>
             <div class="form-group">
               <label>Last name</label>
               <input
+                name="lastName"
                 class="form-control"
-                value="Bond"
                 required
               />
             </div>
             <div class="form-group">
               <label>Email address</label>
               <input
+                name="email"
                 class="form-control"
-                value="james.bond007@lpnu.ua"
                 required
               />
             </div>
             <div class="form-group">
               <label>Old password</label>
               <input
+                name="oldPassword"
                 type="password"
                 class="form-control"
                 placeholder="Enter old password"
-                required
               />
             </div>
             <div class="form-group">
               <label>New password</label>
               <input
+                name="newPassword"
                 type="password"
                 class="form-control"
                 placeholder="Enter new password"
-                required
               />
             </div>
             <div class="form-group">
               <label>Confirm password</label>
               <input
+                name="confirmPassword"
                 type="password"
                 class="form-control"
                 placeholder="Enter new password again"
-                required
               />
             </div>
           </div>
           <div class="d-flex justify-content-between">
             <button type="submit" class="btn theme-button">Save</button>
             <a href="#" class="btn danger-button">Delete account</a>
-            </div>
+          </div>
         </form>
       </div>
     </main>
-    <footer
-      class="text-center fixed-bottom"
-    >
+    <footer class="text-center fixed-bottom">
       <p class="m-0 copyright">Copyright ©2023 SCAM, Inc.</p>
     </footer>
   </body>

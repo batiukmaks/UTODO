@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, abort
 from flask_jwt_extended import jwt_required, current_user
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from db import get_session
 from models import *
 from schemas import *
@@ -13,16 +13,16 @@ user = Blueprint("user", __name__, url_prefix="/user")
 def user_update():
     session = get_session()
 
-    user = session.query(User).filter(User.id == request.json["id"]).first()
+    user = session.query(User).filter(User.id == current_user.id).first()
     if not user:
         abort(404)
 
-    for key, val in request.json.items():
-        session.query(User).filter(User.id == user.id).update({key: val})
-        print(key, val)
+    if check_password_hash(user.password, request.json.get('old_password')):
+        user.password = generate_password_hash(request.json.get('password'))
 
-    if "password" in request.json:
-        user.password = generate_password_hash(user.password)
+    for key, val in request.json.items():
+        if not key in ['password', 'old_password']:
+            session.query(User).filter(User.id == user.id).update({key: val})
     session.commit()
     return jsonify(
         UserFullInfoSchema().dump(
@@ -72,9 +72,11 @@ def get_user_tasks():
             .first()
         )
         tasks.append(UserTaskInfoSchema().dump(user_task))
+        tasks[-1]["group_id"] = group_task.group_id
         tasks[-1]["task_id"] = group_task.id
         tasks[-1]["name"] = group_task.name
         tasks[-1]["description"] = group_task.description
+        tasks[-1]["group_name"] = session.query(Group).filter(Group.id == group_task.group_id).first().name
     return jsonify(tasks)
 
 
@@ -82,8 +84,6 @@ def get_user_tasks():
 @jwt_required()
 def change_user_task_status(task_id):
     session = get_session()
-    if not task_id.isnumeric():
-        abort(400)
 
     user_task = session.query(UserTask).filter(UserTask.id == task_id).first()
     if not user_task:
@@ -104,10 +104,15 @@ def change_user_task_status(task_id):
     if request.method == "GET":
         return jsonify(get_fullinfo_task(user_task))
     elif request.method == "PUT":
-        status = request.args.get("status")
-        if status not in ["done", "undone", "in_progress"]:
+        status = request.json.get("status")
+        if status not in ["done", "undone", "in_progress", "switch"]:
             abort(400)
-        user_task.status = status
+        if status == "switch" and user_task.status == "done":
+            user_task.status = "undone"
+        elif status == "switch" and user_task.status == "undone":
+            user_task.status = "done"
+        else:
+            user_task.status = status
         session.commit()
         return jsonify(get_fullinfo_task(user_task))
 
