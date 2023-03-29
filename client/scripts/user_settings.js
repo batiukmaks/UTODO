@@ -1,5 +1,5 @@
 import { makeRequest } from "./http.js";
-import { getItem, setItem } from "./storage.js";
+import { getItem } from "./storage.js";
 
 const firstNameInput = document.querySelector('input[name="firstName"]');
 const lastNameInput = document.querySelector('input[name="lastName"]');
@@ -31,16 +31,10 @@ const updateUserProfile = async (updatedProfile) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${getItem("access_token")}`,
     };
-    const data = await makeRequest(url, method, updatedProfile, headers);
-    console.log(data);
-    updateUI(data);
+    await makeRequest(url, method, updatedProfile, headers);
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error);
   }
-};
-
-const updateUI = (data) => {
-  // Update the user interface to show the updated profile information
 };
 
 const handleSubmit = async (event) => {

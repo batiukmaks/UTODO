@@ -1,5 +1,4 @@
 import { makeRequest } from "./http.js";
-import { getItem } from "./storage.js";
 import { createElement } from "./dom.js";
 
 function getGroupIdFromUrlParams() {
@@ -140,7 +139,7 @@ document.addEventListener("click", async (event) => {
     const newTitle = document.querySelector("#new_title").value;
     const newDescription = document.querySelector("#new_description").value;
     const group_id = getGroupIdFromUrlParams();
-    const response = await makeRequest(
+    await makeRequest(
       `http://localhost:5000/groups/${group_id}`,
       "PUT",
       { name: newTitle, description: newDescription }
@@ -157,7 +156,7 @@ document.addEventListener("keydown", async (event) => {
     const newTaskName = event.target.value;
     if (newTaskName) {
       const group_id = getGroupIdFromUrlParams();
-      const response = await makeRequest(
+      await makeRequest(
         `http://localhost:5000/groups/${group_id}/tasks`,
         "POST",
         { name: newTaskName }

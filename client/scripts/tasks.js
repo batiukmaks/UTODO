@@ -1,10 +1,3 @@
-function getTokenHeader() {
-  return {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-  };
-}
-
 import { makeRequest } from "./http.js";
 import { getItem } from "./storage.js";
 import { createElement } from "./dom.js";
@@ -74,7 +67,7 @@ document.addEventListener("click", async (event) => {
     const taskId = event.target.dataset.taskId;
     const accessToken = getItem("access_token");
     try {
-      const response = await makeRequest(`http://localhost:5000/user/tasks/${taskId}`, "PUT", { status: "switch" }, {
+      await makeRequest(`http://localhost:5000/user/tasks/${taskId}`, "PUT", { status: "switch" }, {
         "Authorization": `Bearer ${accessToken}`,
       });
       if (

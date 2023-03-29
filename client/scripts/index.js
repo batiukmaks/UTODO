@@ -1,6 +1,6 @@
 // Import reusable functions
 import { makeRequest } from "./http.js";
-import { getItem, setItem } from "./storage.js";
+import { setItem } from "./storage.js";
 
 // Define login function
 async function login(email, password) {

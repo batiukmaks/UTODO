@@ -1,4 +1,3 @@
-import { createElement } from "./dom.js";
 import { makeRequest } from "./http.js";
 import { getItem } from "./storage.js";
 

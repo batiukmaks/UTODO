@@ -1,8 +1,6 @@
 import { makeRequest } from "./http.js";
-import { createElement } from "./dom.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector("form");
   const button = document.querySelector('button[type="submit"]');
 
   button.addEventListener("click", async (event) => {
