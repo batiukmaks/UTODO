@@ -1,68 +1,30 @@
+import { makeRequest } from "./http.js";
+import { getItem } from "./storage.js";
+import { createElement } from "./dom.js";
+
 function getGroupIdFromUrlParams() {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get("group_id");
 }
 
 async function fetchGroup(group_id) {
-  return fetch(`http://localhost:5000/groups/${group_id}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-    },
-  }).then((response) => response.json());
+  return makeRequest(`http://localhost:5000/groups/${group_id}`, "GET");
 }
 
 async function fetchOwner(owner_id) {
-  return fetch(`http://localhost:5000/user/${owner_id}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-    },
-  }).then((response) => response.json());
+  return makeRequest(`http://localhost:5000/user/${owner_id}`, "GET");
 }
 
 async function fetchCurrentUser() {
-  return fetch("http://localhost:5000/user/me", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-    },
-  }).then((response) => response.json());
+  return makeRequest(`http://localhost:5000/user/me`, "GET");
 }
 
 async function fetchMembers(group_id) {
-  return fetch(`http://localhost:5000/groups/${group_id}/members`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-    },
-  }).then((response) => response.json());
+  return makeRequest(`http://localhost:5000/groups/${group_id}/members`, "GET");
 }
 
 async function fetchTasks(group_id) {
-  return fetch(`http://localhost:5000/groups/${group_id}/tasks`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-    },
-  }).then((response) => response.json());
-}
-
-function updateInputs(title, description, owner) {
-  document.querySelectorAll("#title").forEach((element) => {
-    element.value = title;
-  });
-  document.querySelectorAll("#description").forEach((element) => {
-    element.value = description;
-  });
-  document.querySelectorAll("#owner").forEach((element) => {
-    element.value = owner;
-  });
+  return makeRequest(`http://localhost:5000/groups/${group_id}/tasks`, "GET");
 }
 
 function updateInputValues() {
@@ -78,18 +40,12 @@ function updateInputValues() {
 }
 
 function updateTaskLists() {
-  const taskLists = document.querySelectorAll(
-    "#user_tasks .list-unstyled"
-    // "#user_tasks .list-unstyled, #group_tasks .list-unstyled"
-  );
+  const taskLists = document.querySelectorAll("#user_tasks .list-unstyled");
   taskLists.forEach((taskList) => {
     taskList.innerHTML = "";
     tasks.forEach((task) => {
       const li = document.createElement("li");
       li.classList.add("py-2", "border-bottom");
-      //   if (taskList.classList.contains("user_tasks") && task.status === "done") {
-      //     li.classList.add("text-decoration-line-through");
-      //   }
       li.textContent = task.name;
       taskList.appendChild(li);
     });
@@ -109,14 +65,9 @@ function updateMemberList() {
   const memberList = document.querySelector("#members .members-list");
   memberList.innerHTML = "";
   members.forEach((member) => {
-    const li = document.createElement("li");
-    li.classList.add(
-      "row",
-      "row-cols-1",
-      "row-cols-lg-2",
-      "py-2",
-      "border-bottom"
-    );
+    const li = createElement("li", {
+      class: "row row-cols-1 row-cols-lg-2 py-2 border-bottom"
+    });
     li.innerHTML = `
         <p class="col my-0">${member.name} ${member.surname}</p>
         <p class="my-0">${member.email}</p>
@@ -125,14 +76,9 @@ function updateMemberList() {
   });
 
   if (user.id === owner.id) {
-    const li = document.createElement("li");
-    li.classList.add(
-      "row",
-      "row-cols-1",
-      "row-cols-lg-2",
-      "py-2",
-      "border-bottom"
-    );
+    const li = createElement("li", {
+      class: "row row-cols-1 row-cols-lg-2 py-2 border-bottom"
+    });
     li.innerHTML = `
       <input id="new_member" placeholder="Member's email" class="w-100 form-control input-sm ps-2 border-0" />
     `;
@@ -171,88 +117,54 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // Add an event listener for the Add Member button
-document.addEventListener("keydown", (event) => {
-    if (event.target.id === "new_member" && event.key === "Enter") {
-      const newMemberEmail = document.querySelector("#new_member").value;
-      window.alert(newMemberEmail)
-      if (newMemberEmail) {
-        const group_id = getGroupIdFromUrlParams();
-        fetch(`http://localhost:5000/groups/${group_id}/members`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-          body: JSON.stringify({ email: newMemberEmail }),
-        })
-          .then((response) => {
-            if (response.status === 200) {
-              return response.json();
-            } else {
-              throw new Error("Failed to add member");
-            }
-          })
-          .then((data) => {
-            members.push(data);
-            updateMemberList();
-          })
-          .catch((err) => console.log(err));
-      }
+document.addEventListener("keydown", async (event) => {
+  if (event.target.id === "new_member" && event.key === "Enter") {
+    const newMemberEmail = document.querySelector("#new_member").value;
+    if (newMemberEmail) {
+      const group_id = getGroupIdFromUrlParams();
+      const response = await makeRequest(
+        `http://localhost:5000/groups/${group_id}/members`,
+        "POST",
+        { email: newMemberEmail }
+      );
+
+      members.push(response);
+      updateMemberList();
     }
-  });
-  
+  }
+});
 
 // Add an event listener for the Save button
-document.addEventListener("click", (event) => {
+document.addEventListener("click", async (event) => {
   if (event.target.id === "save_btn") {
     const newTitle = document.querySelector("#new_title").value;
     const newDescription = document.querySelector("#new_description").value;
     const group_id = getGroupIdFromUrlParams();
-    fetch(`http://localhost:5000/groups/${group_id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-      body: JSON.stringify({ name: newTitle, description: newDescription }),
-    })
-      .then(() => {
-        group.name = newTitle;
-        group.description = newDescription;
-        updateInputValues();
-      })
-      .catch((err) => console.log(err));
+    const response = await makeRequest(
+      `http://localhost:5000/groups/${group_id}`,
+      "PUT",
+      { name: newTitle, description: newDescription }
+    );
+    group.name = newTitle;
+    group.description = newDescription;
+    updateInputValues();
   }
 });
 
 // Add an event listener for the New Task input
-document.addEventListener("keydown", (event) => {
+document.addEventListener("keydown", async (event) => {
   if (event.target.id === "new_task" && event.key === "Enter") {
     const newTaskName = event.target.value;
     if (newTaskName) {
       const group_id = getGroupIdFromUrlParams();
-      fetch(`http://localhost:5000/groups/${group_id}/tasks`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-        body: JSON.stringify({ name: newTaskName }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          tasks.push(data);
-          updateTaskLists(tasks);
-        })
-        .catch((err) => console.log(err));
+      const response = await makeRequest(
+        `http://localhost:5000/groups/${group_id}/tasks`,
+        "POST",
+        { name: newTaskName }
+      );
+      tasks = await fetchTasks(group_id);
+      updateTaskLists();
       event.target.value = "";
     }
   }
 });
-
-const memberEmails = [
-  "maksym.batiuk@lpnu.ua",
-  "james.bond.007@lpnu.ua",
-  "every.day@lpnu.ua",
-  "random.person@lpnu.ua",
-];

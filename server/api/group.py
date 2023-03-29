@@ -105,12 +105,18 @@ def group_members(group_id):
     elif request.method == "POST":
         email = request.json.get("email")
         user = session.query(User).filter(User.email == email).first()
-        if not user or (already_member := session.query(GroupMember).filter(GroupMember.user_id == user.id).first()):
+        if not user or (already_member := session.query(GroupMember).filter(and_(GroupMember.user_id == user.id, GroupMember.group_id == group_id)).first()):
             abort(404)
         new_member = GroupMember(user_id=user.id, group_id=group_id)
         session.add(new_member)
         session.flush()
         session.refresh(new_member)
+        group_tasks = (
+            session.query(GroupTask).filter(GroupTask.group_id == group_id).all()
+        )
+        user_tasks = [UserTask(groupTask_id=task.id, user_id=user.id, status="undone") for task in group_tasks]
+        session.add_all(user_tasks)
+        session.commit()
         session.commit()
         return jsonify(get_groupmember_schema(new_member, user))
     elif request.method == "DELETE":
@@ -138,7 +144,7 @@ def group_tasks(group_id):
         tasks = []
         for task in group_tasks:
             tasks.append(GroupTaskInfoSchema().dump(task))
-            tasks[-1]["status"] = session.query(UserTask).filter(and_(UserTask.user_id==current_user.id, UserTask.id==task.id)).first().status
+            # tasks[-1]["status"] = session.query(UserTask).filter(and_(UserTask.user_id==current_user.id, UserTask.id==task.id)).first().status
         return jsonify(tasks)
     elif request.method == "POST":
         try:
