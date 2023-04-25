@@ -1,30 +1,20 @@
 import React from "react";
 import TaskInterface from "../../../components/Task/TaskInterface";
 import TaskList from "../../../components/TaskList/TaskList";
+import GroupInterface from "../../../components/Group/GroupInterface";
 
-const GroupTasks = () => {
+interface Props {
+  group: GroupInterface;
+}
+
+const GroupTasks = ({group}: Props) => {
   return (
     <div className="tab-pane fade show active">
       <div className="container signup-form">
-        <TaskList tasks={tasks1} />
+        <TaskList tasks={group.tasks} />
       </div>
     </div>
   );
 };
 
 export default GroupTasks;
-const tasks1: TaskInterface[] = [
-  {
-    group_id: 1,
-    id: 1,
-    name: "Task 1",
-    done: false,
-  },
-  {
-    group_id: 1,
-    id: 2,
-    name: "Task 2",
-    done: true,
-  },
-];
-

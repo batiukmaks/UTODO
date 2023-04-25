@@ -1,6 +1,11 @@
 import React from "react";
+import GroupInterface from "../../../components/Group/GroupInterface";
 
-const GroupGeneral = () => {
+interface Props {
+  group: GroupInterface;
+}
+
+const GroupGeneral = ({group}: Props) => {
   return (
     <div className="tab-pane fade show active">
       <div className="container signup-form">
@@ -22,15 +27,3 @@ const GroupGeneral = () => {
 };
 
 export default GroupGeneral;
-
-interface GroupInfo {
-  title: string;
-  description: string;
-  owner_fullname: string;
-}
-
-const group: GroupInfo = {
-  title: "Group 1",
-  description: "This is the description of group 1",
-  owner_fullname: "James Bond"
-}

@@ -2,7 +2,7 @@ import React from "react";
 import TaskList from "../TaskList/TaskList";
 import "../../styles/styles.css";
 import { Link } from "react-router-dom";
-import GroupInterface from "./GroupInterface";
+import GroupInterface from "../Group/GroupInterface";
 
 interface Props {
   group: GroupInterface;

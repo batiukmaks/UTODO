@@ -9,6 +9,7 @@ import GroupEdit from "./GroupEdit/GroupEdit";
 
 import MainHeader from "../../components/MainHeader/MainHeader";
 import Footer from "../../components/Footer/Footer";
+import GroupInterface from "../../components/Group/GroupInterface";
 
 const Group = () => {
   return (
@@ -17,10 +18,10 @@ const Group = () => {
       <GroupNavbar />
       <div className="container mt-5 tab-content general-info">
         <Routes>
-          <Route index element={<GroupGeneral />} />
-          <Route path="/tasks" element={<GroupTasks />} />
-          <Route path="/members" element={<GroupMembers />} />
-          <Route path="/edit" element={<GroupEdit />} />
+          <Route index element={<GroupGeneral group={groupInfo} />} />
+          <Route path="/tasks" element={<GroupTasks group={groupInfo} />} />
+          <Route path="/members" element={<GroupMembers group={groupInfo} />} />
+          <Route path="/edit" element={<GroupEdit group={groupInfo} />} />
         </Routes>
       </div>
       <Footer />
@@ -29,3 +30,36 @@ const Group = () => {
 };
 
 export default Group;
+
+const groupInfo: GroupInterface = {
+  id: 1,
+  owner_fullname: "John Doe",
+  title: "Group 1",
+  description: "This is the description of group 1",
+  tasks: [
+    {
+      group_id: 1,
+      id: 1,
+      name: "Task 1",
+      done: false,
+    },
+    {
+      group_id: 1,
+      id: 2,
+      name: "Task 2",
+      done: true,
+    },
+  ],
+  members: [
+    {
+      firstName: "James",
+      lastName: "Bond",
+      email: "realdilf007@gmail.com",
+    },
+    {
+      firstName: "Jane",
+      lastName: "Williams",
+      email: "janewilliams@gmail.com",
+    },
+  ],
+};

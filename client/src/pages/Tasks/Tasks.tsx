@@ -1,4 +1,4 @@
-import GroupInterface from "../../components/GroupTasks/GroupInterface";
+import GroupInterface from "../../components/Group/GroupInterface";
 import GroupTasks from "../../components/GroupTasks/GroupTasks";
 import MainHeader from "../../components/MainHeader/MainHeader";
 import Footer from "../../components/Footer/Footer";

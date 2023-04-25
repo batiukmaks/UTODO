@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+  import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
@@ -7,7 +7,7 @@ import CreateGroup from "./pages/CreateGroup/CreateGroup";
 import Group from "./pages/Group/Group";
 import UserSettings from "./pages/UserSettings/UserSettings";
 
-import GroupInterface from "./components/GroupTasks/GroupInterface";
+import GroupInterface from "./components/Group/GroupInterface";
 
 const App: React.FC = () => {
 
@@ -32,6 +32,7 @@ const groups_server: GroupInterface[] = [
     id: 1,
     owner_fullname: "John Doe",
     title: "Group 1",
+    description: "This is the description of group 1",
     tasks: [
       {
         group_id: 1,
@@ -46,11 +47,24 @@ const groups_server: GroupInterface[] = [
         done: true,
       },
     ],
+    members: [
+      {
+        firstName: "John",
+        lastName: "Doe",
+        email: "johndoe@gmail.com"
+      },
+      {
+        firstName: "Jane",
+        lastName: "Williams",
+        email: "janewilliams@gmail.com"
+      }
+    ]
   },
   {
     id: 12,
     owner_fullname: "John Doe",
     title: "Group 12",
+    description: "This is the description of group 12",
     tasks: [
       {
         group_id: 12,
@@ -65,6 +79,18 @@ const groups_server: GroupInterface[] = [
         done: false,
       },
     ],
+    members: [
+      {
+        firstName: "James",
+        lastName: "Bond",
+        email: "realdilf007@gmail.com"
+      },
+      {
+        firstName: "Jane",
+        lastName: "Williams",
+        email: "janewilliams@gmail.com"
+      }
+    ]
   },
 ];
 
