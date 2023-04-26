@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import AuthHeader from "../../components/AuthHeader/AuthHeader";
 import Footer from "../../components/Footer/Footer";
 import "../../styles/styles.css";
+import { fetch_data } from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Send data to server to authenticate
     console.log("Sign up form submitted!");
@@ -17,6 +20,14 @@ const Signup = () => {
     console.log("Last name: ", lastName);
     console.log("Email: ", email);
     console.log("Password: ", password);
+
+    const response = await fetch_data('/user/signup', 'POST', {
+      name: firstName,
+      surname: lastName,
+      email: email,
+      password: password
+      }, false);
+    navigate("/")
   };
 
   return (

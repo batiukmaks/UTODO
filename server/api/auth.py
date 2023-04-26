@@ -14,7 +14,7 @@ from marshmallow import ValidationError
 auth = Blueprint("auth", __name__, url_prefix="/")
 
 
-@auth.route("/user", methods=["POST"])
+@auth.route("/user/signup", methods=["POST"])
 def user():
     session = get_session()
     try:
@@ -48,10 +48,8 @@ def login():
         response = jsonify(user_schema)
         # set_access_cookies(response, access_token)
         return response
-    elif user:
-        abort(403)
     else:
-        abort(404)
+        abort(401)
 
 
 @auth.route("/user/logout", methods=["GET"])

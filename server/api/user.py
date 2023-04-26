@@ -105,14 +105,14 @@ def change_user_task_status(task_id):
         return jsonify(get_fullinfo_task(user_task))
     elif request.method == "PUT":
         status = request.json.get("status")
+        done = status == "done"
+        print(done)
         if status not in ["done", "undone", "in_progress", "switch"]:
             abort(400)
-        if status == "switch" and user_task.status == "done":
-            user_task.status = "undone"
-        elif status == "switch" and user_task.status == "undone":
+        if done:
             user_task.status = "done"
         else:
-            user_task.status = status
+            user_task.status = "undone"
         session.commit()
         return jsonify(get_fullinfo_task(user_task))
 

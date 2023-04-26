@@ -2,17 +2,32 @@ import React, { useState } from "react";
 import AuthHeader from "../../components/AuthHeader/AuthHeader";
 import Footer from "../../components/Footer/Footer";
 import "../../styles/styles.css";
+import { fetch_data } from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Send email and password to server to authenticate
-    console.log("Login form submitted!");
-    console.log("Email: ", email);
-    console.log("Password: ", password);
+    try {
+      const data = await fetch_data(
+        "/user/login",
+        "POST",
+        {
+          email: email,
+          password: password,
+        },
+        false
+      );
+      localStorage.setItem("access_token", data.access_token);
+      navigate("/tasks");
+    } catch (error: any) {
+      window.alert("Error: " + error.message);
+    }
   };
 
   return (
