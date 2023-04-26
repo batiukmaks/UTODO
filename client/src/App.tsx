@@ -1,4 +1,4 @@
-  import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
@@ -10,16 +10,15 @@ import UserSettings from "./pages/UserSettings/UserSettings";
 import GroupInterface from "./components/Group/GroupInterface";
 
 const App: React.FC = () => {
-
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<Login/>} />
-        <Route path="/signup" element={<Signup/>} />
+        <Route index element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/tasks" element={<Tasks />} />
-        <Route path="/create-group" element={<CreateGroup/>} />
-        <Route path="/group/*" element={<Group/>} />
-        <Route path="/user-settings" element={<UserSettings/>} />
+        <Route path="/create-group" element={<CreateGroup />} />
+        <Route path="/group/:id/*" element={<Group />} />
+        <Route path="/user-settings" element={<UserSettings />} />
       </Routes>
     </BrowserRouter>
   );

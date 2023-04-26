@@ -16,7 +16,6 @@ const Task = ({ task }: Props) => {
         status: status ? "done" : "undone",
       });
       task.done = data.status === "done";
-      console.log(status, task.done)
     } catch (error: any) {
       console.log(error.message);
     }

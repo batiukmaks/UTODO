@@ -17,8 +17,10 @@ def user_update():
     if not user:
         abort(404)
 
-    if check_password_hash(user.password, request.json.get('old_password')):
+    if request.json.get('old_password') and check_password_hash(user.password, request.json.get('old_password')):
         user.password = generate_password_hash(request.json.get('password'))
+    else:
+        abort(401)
 
     for key, val in request.json.items():
         if not key in ['password', 'old_password']:

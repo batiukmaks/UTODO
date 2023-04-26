@@ -1,22 +1,43 @@
 import React, { useState } from "react";
 import GroupInterface from "../../../components/Group/GroupInterface";
+import { fetch_data } from "../../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   group: GroupInterface;
+  setGroup: (group: GroupInterface) => void;
 }
 
-const GroupEdit = ({ group }: Props) => {
+const GroupEdit = ({ group, setGroup }: Props) => {
   const [title, setTitle] = useState(group.title);
   const [description, setDescription] = useState(group.description);
   const [newTask, setNewTask] = useState("");
+  const navigate = useNavigate()
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("GroupEdit form submitted!");
-    console.log("Title: ", title);
-    console.log("Description: ", description);
-    console.log("New task: ", newTask);
-  }
+
+    try {
+      const update_response = fetch_data(`/groups/${group.id}`, "PUT", {
+        name: title,
+        description: description,
+      });
+      group.title = title;
+      group.description = description;
+      setGroup(group);
+      if (newTask !== "") {
+        const create_new_task_response = fetch_data(
+          `/groups/${group.id}/tasks`,
+          "POST",
+          {
+            name: newTask,
+          }
+        );
+      }
+    } catch (error: any) {
+      window.alert(error);
+    }
+  };
 
   return (
     <div className="tab-pane fade show active">
@@ -37,9 +58,8 @@ const GroupEdit = ({ group }: Props) => {
               id="new_description"
               className="form-control"
               onChange={(event) => setDescription(event.target.value)}
-            >
-              {description}
-            </textarea>
+              value={description}
+            ></textarea>
           </div>
 
           <div id="group_tasks" className="form-group">

@@ -9,6 +9,9 @@ interface Props {
 }
 
 const TaskList = ({ tasks }: Props) => {
+  if (!tasks || tasks.length === 0) {
+    return <p>No tasks</p>;
+  }
   return (
     <>
       <ul className="text-wrap list-unstyled">

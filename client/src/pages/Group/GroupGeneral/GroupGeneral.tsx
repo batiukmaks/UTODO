@@ -15,7 +15,7 @@ const GroupGeneral = ({group}: Props) => {
         </div>
         <div className="form-group">
           <label>Description</label>
-          <textarea id="description" className="form-control" readOnly>{group.description}</textarea>
+          <textarea id="description" className="form-control" value={group.description} readOnly></textarea>
         </div>
         <div className="form-group">
           <label>Owner</label>

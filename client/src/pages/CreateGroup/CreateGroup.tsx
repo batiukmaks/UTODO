@@ -2,17 +2,26 @@ import React, { useState } from "react";
 import MainHeader from "../../components/MainHeader/MainHeader";
 import Footer from "../../components/Footer/Footer";
 import "../../styles/styles.css";
+import { fetch_data } from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 const CreateGroup = () => {
   const [groupName, setGroupName] = useState("");
   const [groupDescription, setGroupDescription] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // handle form submission
-    console.log("CreateGroup form submitted!");
-    console.log("Name: ", groupName);
-    console.log("Description: ", groupDescription);
+    try {
+      const data = await fetch_data("/groups/", "POST", {
+        name: groupName,
+        description: groupDescription,
+        });
+        navigate(`/group/${data.id}`);
+      }
+    catch (error) {
+      window.alert(error);
+    }
   };
 
   return (

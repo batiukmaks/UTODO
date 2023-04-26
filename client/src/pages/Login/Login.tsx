@@ -24,6 +24,7 @@ const Login = () => {
         false
       );
       localStorage.setItem("access_token", data.access_token);
+      localStorage.setItem("current_user_id", data.id)
       navigate("/tasks");
     } catch (error: any) {
       window.alert("Error: " + error.message);

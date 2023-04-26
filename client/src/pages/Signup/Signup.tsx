@@ -14,12 +14,6 @@ const Signup = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Send data to server to authenticate
-    console.log("Sign up form submitted!");
-    console.log("First name: ", firstName);
-    console.log("Last name: ", lastName);
-    console.log("Email: ", email);
-    console.log("Password: ", password);
 
     const response = await fetch_data('/user/signup', 'POST', {
       name: firstName,

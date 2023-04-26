@@ -13,7 +13,7 @@ const GroupTasks = ({ group }: Props) => {
     <>
       <div className="h-100 border rounded-3 p-3">
         <div className="h4 mb-3 text-center">
-          <Link to={`/group`} className="group-name">
+          <Link to={`/group/${group.id}`} className="group-name">
             {group.title}
           </Link>
         </div>
