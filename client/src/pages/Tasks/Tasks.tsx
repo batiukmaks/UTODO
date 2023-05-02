@@ -3,8 +3,6 @@ import GroupTasks from "../../components/GroupTasks/GroupTasks";
 import MainHeader from "../../components/MainHeader/MainHeader";
 import Footer from "../../components/Footer/Footer";
 import "../../styles/styles.css";
-import { fetch_data } from "../../utils/api";
-import TaskInterface from "../../components/Task/TaskInterface";
 import { useEffect, useState } from "react";
 import { getMyGroups } from "../../utils/group";
 interface Props {

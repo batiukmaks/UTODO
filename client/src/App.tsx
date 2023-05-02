@@ -7,8 +7,6 @@ import CreateGroup from "./pages/CreateGroup/CreateGroup";
 import Group from "./pages/Group/Group";
 import UserSettings from "./pages/UserSettings/UserSettings";
 
-import GroupInterface from "./components/Group/GroupInterface";
-
 const App: React.FC = () => {
   return (
     <BrowserRouter>

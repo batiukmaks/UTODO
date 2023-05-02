@@ -41,8 +41,9 @@ const Login = () => {
         <div className="border p-3 p-lg-5 mx-3 signup-form">
           <form autoComplete="off" onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Email address</label>
+              <label htmlFor="email">Email address</label>
               <input
+                id="email"
                 type="email"
                 className="form-control"
                 placeholder="Enter email"
@@ -52,8 +53,9 @@ const Login = () => {
               />
             </div>
             <div className="form-group">
-              <label>Password</label>
+              <label htmlFor="password">Password</label>
               <input
+                id="password"
                 type="password"
                 className="form-control"
                 placeholder="Password"

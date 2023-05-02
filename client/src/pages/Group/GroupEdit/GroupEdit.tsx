@@ -44,7 +44,7 @@ const GroupEdit = ({ group, setGroup }: Props) => {
       <div className="container signup-form">
         <form autoComplete="off" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Title</label>
+            <label htmlFor="new_title">Title</label>
             <input
               id="new_title"
               className="form-control"
@@ -53,7 +53,7 @@ const GroupEdit = ({ group, setGroup }: Props) => {
             />
           </div>
           <div className="form-group">
-            <label>Description</label>
+            <label htmlFor="new_description">Description</label>
             <textarea
               id="new_description"
               className="form-control"
@@ -63,7 +63,7 @@ const GroupEdit = ({ group, setGroup }: Props) => {
           </div>
 
           <div id="group_tasks" className="form-group">
-            <label>Add new task</label>
+            <label htmlFor="new_task">Add new task</label>
 
             <ul className="list-unstyled group_tasks">
               <li className="border-bottom">

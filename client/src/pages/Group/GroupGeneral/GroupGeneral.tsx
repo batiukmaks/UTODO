@@ -10,15 +10,15 @@ const GroupGeneral = ({group}: Props) => {
     <div className="tab-pane fade show active">
       <div className="container signup-form">
         <div className="form-group">
-          <label>Title</label>
+          <label htmlFor="title">Title</label>
           <input id="title" className="form-control" value={group.title} readOnly />
         </div>
         <div className="form-group">
-          <label>Description</label>
+          <label htmlFor="description">Description</label>
           <textarea id="description" className="form-control" value={group.description} readOnly></textarea>
         </div>
         <div className="form-group">
-          <label>Owner</label>
+          <label htmlFor="owner">Owner</label>
           <input id="owner" className="form-control" value={group.owner_fullname} readOnly />
         </div>
       </div>

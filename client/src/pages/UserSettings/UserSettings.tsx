@@ -14,6 +14,7 @@ const UserSettings = () => {
 
   const fetchData = async () => {
     const data = await fetch_data("/user/me", "GET");
+    console.log(data)
     setFirstName(data.name);
     setLastName(data.surname);
     setEmail(data.email);
@@ -30,19 +31,17 @@ const UserSettings = () => {
       return;
     }
     try {
-    const response = await fetch_data("/user/", "PUT", {
-      name: firstName,
-      surname: lastName,
-      email: email,
-      old_password: oldPassword,
-      password: newPassword,
+      const response = await fetch_data("/user/", "PUT", {
+        name: firstName,
+        surname: lastName,
+        email: email,
+        old_password: oldPassword,
+        password: newPassword,
       });
-      window.alert("Account updated successfully")
-    }
-    catch (error: any) {
+      window.alert("Account updated successfully");
+    } catch (error: any) {
       window.alert(error);
     }
-
   };
 
   return (
@@ -56,8 +55,9 @@ const UserSettings = () => {
           <form autoComplete="off" onSubmit={handleSubmit}>
             <div className="row row-cols-1 row-cols-lg-2">
               <div className="form-group">
-                <label>First name</label>
+                <label htmlFor="firstName">First name</label>
                 <input
+                  id="firstName"
                   name="firstName"
                   className="form-control"
                   value={firstName}
@@ -66,8 +66,9 @@ const UserSettings = () => {
                 />
               </div>
               <div className="form-group">
-                <label>Last name</label>
+                <label htmlFor="lastName">Last name</label>
                 <input
+                  id="lastName"
                   name="lastName"
                   className="form-control"
                   value={lastName}
@@ -76,8 +77,9 @@ const UserSettings = () => {
                 />
               </div>
               <div className="form-group">
-                <label>Email address</label>
+                <label htmlFor="email">Email address</label>
                 <input
+                  id="email"
                   name="email"
                   className="form-control"
                   value={email}
@@ -86,8 +88,9 @@ const UserSettings = () => {
                 />
               </div>
               <div className="form-group">
-                <label>Old password</label>
+                <label htmlFor="oldPassword">Old password</label>
                 <input
+                  id="oldPassword"
                   name="oldPassword"
                   type="password"
                   className="form-control"
@@ -97,8 +100,9 @@ const UserSettings = () => {
                 />
               </div>
               <div className="form-group">
-                <label>New password</label>
+                <label htmlFor="newPassword">New password</label>
                 <input
+                  id="newPassword"
                   name="newPassword"
                   type="password"
                   className="form-control"
@@ -108,8 +112,9 @@ const UserSettings = () => {
                 />
               </div>
               <div className="form-group">
-                <label>Confirm password</label>
+                <label htmlFor="confirmPassword">Confirm password</label>
                 <input
+                  id="confirmPassword"
                   name="confirmPassword"
                   type="password"
                   className="form-control"
@@ -123,7 +128,6 @@ const UserSettings = () => {
               <button type="submit" className="btn theme-button">
                 Save
               </button>
-
             </div>
           </form>
         </div>

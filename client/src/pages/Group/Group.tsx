@@ -46,7 +46,7 @@ const Group = () => {
 export default Group;
 
 const default_group: GroupInterface = {
-    id: 0,
+    id: -1,
     owner_fullname: "Loading...",
     owner_id: 0,
     title: "Loading...",

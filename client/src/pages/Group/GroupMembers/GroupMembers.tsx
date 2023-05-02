@@ -15,13 +15,15 @@ const GroupMembers = ({ group }: Props) => {
   );
   const { id } = useParams<{ id: string }>();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
-      const response = fetch_data(`/groups/${group.id}/members`, "POST", {
+      console.log("group.id: ", group.id);
+      const response = await fetch_data(`/groups/${group.id}/members`, "POST", {
         email: newMemberEmail,
       })
+      console.log("newMemberEmail: ", newMemberEmail);
     } catch (error: any) {
       window.alert(error);
     }
@@ -34,7 +36,7 @@ const GroupMembers = ({ group }: Props) => {
   return (
     <div className="tab-pane fade show active">
       <div className="container signup-form">
-        <form autoComplete="off" onSubmit={handleSubmit}>
+        <form role="form" autoComplete="off" onSubmit={handleSubmit}>
           <ul className="list-unstyled members-list">
             {group.members.map((member) => (
               <li

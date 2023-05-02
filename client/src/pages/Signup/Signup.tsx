@@ -25,7 +25,7 @@ const Signup = () => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <AuthHeader link="/" link_text="Log in" />
       <main className="d-flex flex-column align-items-center justify-content-center mb-5">
         <div className="heading mb-2">
@@ -82,7 +82,7 @@ const Signup = () => {
         </div>
       </main>
       <Footer />
-    </>
+    </React.Fragment>
   );
 };
 

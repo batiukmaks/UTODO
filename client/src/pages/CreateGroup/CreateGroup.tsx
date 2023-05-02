@@ -34,7 +34,7 @@ const CreateGroup = () => {
         <div className="border p-3 p-lg-5 mx-3">
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Group name</label>
+              <label htmlFor="groupName">Group name</label>
               <input
                 id="groupName"
                 className="form-control"
@@ -45,7 +45,7 @@ const CreateGroup = () => {
               />
             </div>
             <div className="form-group">
-              <label>Description</label>
+              <label htmlFor="groupDescription">Description</label>
               <textarea
                 id="groupDescription"
                 className="form-control"
