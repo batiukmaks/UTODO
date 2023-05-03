@@ -70,6 +70,7 @@ describe("Login component", () => {
       </BrowserRouter>
     );
 
+    window.alert = jest.fn();
     const emailInput = screen.getByLabelText("Email address");
     const passwordInput = screen.getByLabelText("Password");
     const loginButton = screen.getByRole("button", { name: "Log in" });
@@ -77,7 +78,7 @@ describe("Login component", () => {
     fireEvent.change(emailInput, { target: { value: "test@example.com" } });
     fireEvent.change(passwordInput, { target: { value: "password123" } });
     fireEvent.click(loginButton);
-
+  
     await act(async () => {
       expect(fetch_data as jest.Mock).toHaveBeenCalledWith(
         "/user/login",

@@ -76,6 +76,7 @@ describe("UserSettings", () => {
         </BrowserRouter>
       );
     });
+    window.alert = jest.fn();
     const firstNameInput = screen.getByLabelText("First name");
     const lastNameInput = screen.getByLabelText("Last name");
     const emailInput = screen.getByLabelText("Email address");
@@ -83,13 +84,17 @@ describe("UserSettings", () => {
     const newPasswordInput = screen.getByLabelText("New password");
     const confirmNewPasswordInput = screen.getByLabelText("Confirm password");
     const saveButton = screen.getByText("Save");
-    fireEvent.change(firstNameInput, { target: { value: "Jane" } });
-    fireEvent.change(lastNameInput, { target: { value: "Doe" } });
-    fireEvent.change(emailInput, { target: { value: "jane.doe@example.com" } });
-    fireEvent.change(oldPasswordInput, { target: { value: "oldpassword" } });
-    fireEvent.change(newPasswordInput, { target: { value: "newpassword" } });
-    fireEvent.change(confirmNewPasswordInput, {
-      target: { value: "newpassword" },
+    act(() => {
+      fireEvent.change(firstNameInput, { target: { value: "Jane" } });
+      fireEvent.change(lastNameInput, { target: { value: "Doe" } });
+      fireEvent.change(emailInput, {
+        target: { value: "jane.doe@example.com" },
+      });
+      fireEvent.change(oldPasswordInput, { target: { value: "oldpassword" } });
+      fireEvent.change(newPasswordInput, { target: { value: "newpassword" } });
+      fireEvent.change(confirmNewPasswordInput, {
+        target: { value: "newpassword" },
+      });
     });
     await act(async () => {
       fireEvent.click(saveButton);

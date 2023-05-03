@@ -15,7 +15,7 @@ describe("CreateGroup component", () => {
 
   test("should call fetch_data with the correct arguments when the form is submitted", async () => {
     (fetch_data as jest.Mock).mockResolvedValueOnce({ id: 1 });
-    const navigate = jest.fn();
+
     act(() => {
       render(
         <BrowserRouter>
