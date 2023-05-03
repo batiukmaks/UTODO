@@ -24,9 +24,9 @@
   "scripts": {
     "start": "node-sass src/styles/styles.sass -o src/styles/styles.css --watch & react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --silent",
     "coverage": "react-scripts test --coverage",
-    "coverage-stats": "npm run coverage -- --watchAll=false -- --silent",
+    "coverage-stats": "npm run coverage -- --silent --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

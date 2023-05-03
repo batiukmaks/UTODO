@@ -19,11 +19,9 @@ const GroupMembers = ({ group }: Props) => {
     event.preventDefault();
 
     try {
-      console.log("group.id: ", group.id);
       const response = await fetch_data(`/groups/${group.id}/members`, "POST", {
         email: newMemberEmail,
       })
-      console.log("newMemberEmail: ", newMemberEmail);
     } catch (error: any) {
       window.alert(error);
     }

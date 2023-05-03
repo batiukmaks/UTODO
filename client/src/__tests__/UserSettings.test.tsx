@@ -21,7 +21,7 @@ describe("UserSettings", () => {
         email: "john.doe@example.com",
       },
     };
-    act(() => {
+    await act(async () => {
       (fetch_data as jest.Mock).mockResolvedValueOnce(mockData);
       render(
         <BrowserRouter>
@@ -46,11 +46,13 @@ describe("UserSettings", () => {
       email: "john.doe@example.com",
     };
     (fetch_data as jest.Mock).mockResolvedValueOnce(mockData);
-    render(
-      <BrowserRouter>
-        <UserSettings />
-      </BrowserRouter>
-    );
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <UserSettings />
+        </BrowserRouter>
+      );
+    });
     await waitFor(() => {
       expect(fetch_data).toHaveBeenCalledTimes(1);
       expect(fetch_data).toHaveBeenCalledWith("/user/me", "GET");
@@ -67,11 +69,13 @@ describe("UserSettings", () => {
       message: "Account updated successfully",
     };
     (fetch_data as jest.Mock).mockResolvedValueOnce(mockResponse);
-    render(
-      <BrowserRouter>
-        <UserSettings />
-      </BrowserRouter>
-    );
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <UserSettings />
+        </BrowserRouter>
+      );
+    });
     const firstNameInput = screen.getByLabelText("First name");
     const lastNameInput = screen.getByLabelText("Last name");
     const emailInput = screen.getByLabelText("Email address");
@@ -87,7 +91,9 @@ describe("UserSettings", () => {
     fireEvent.change(confirmNewPasswordInput, {
       target: { value: "newpassword" },
     });
-    fireEvent.click(saveButton);
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
     await waitFor(() => {
       expect(fetch_data).toHaveBeenCalledWith("/user/", "PUT", {
         name: "Jane",

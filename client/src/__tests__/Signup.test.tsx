@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, fireEvent, screen, act } from "@testing-library/react";
 import Signup from "../pages/Signup/Signup";
 import { fetch_data } from "../utils/api";
 import { BrowserRouter } from "react-router-dom";
@@ -26,12 +26,15 @@ describe("Signup form", () => {
     const submitButton = screen.getByText("Sign up");
 
     // Enter input values and submit the form
-    fireEvent.change(firstNameInput, { target: { value: "John" } });
-    fireEvent.change(lastNameInput, { target: { value: "Doe" } });
-    fireEvent.change(emailInput, { target: { value: "johndoe@example.com" } });
-    fireEvent.change(passwordInput, { target: { value: "password" } });
-    fireEvent.click(submitButton);
-
+    act(() => {
+      fireEvent.change(firstNameInput, { target: { value: "John" } });
+      fireEvent.change(lastNameInput, { target: { value: "Doe" } });
+      fireEvent.change(emailInput, {
+        target: { value: "johndoe@example.com" },
+      });
+      fireEvent.change(passwordInput, { target: { value: "password" } });
+      fireEvent.click(submitButton);
+    });
     // Check that handleSubmit was called with the correct values
     expect(fetch_data).toHaveBeenCalledWith(
       "/user/signup",
@@ -44,5 +47,6 @@ describe("Signup form", () => {
       },
       false
     );
+    
   });
 });

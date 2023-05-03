@@ -14,7 +14,6 @@ const UserSettings = () => {
 
   const fetchData = async () => {
     const data = await fetch_data("/user/me", "GET");
-    console.log(data)
     setFirstName(data.name);
     setLastName(data.surname);
     setEmail(data.email);
