@@ -39,6 +39,17 @@ const GroupEdit = ({ group, setGroup }: Props) => {
     }
   };
 
+  const deleteGroup = async() => {
+    try {  
+      const result = await fetch_data(`/groups/${group.id}`, "DELETE")
+      window.alert("Group deleted successfully");
+      navigate(`/tasks`);
+    }
+    catch (error: any) {
+      window.alert(error);
+    }
+  };
+
   return (
     <div className="tab-pane fade show active">
       <div className="container signup-form">
@@ -76,7 +87,10 @@ const GroupEdit = ({ group, setGroup }: Props) => {
               </li>
             </ul>
           </div>
-          <div className="d-flex justify-content-end gap-1">
+          <div className="d-flex justify-content-between gap-1">
+            <button type="button" onClick={(e) => deleteGroup()} className="btn danger-button">
+              Delete account
+            </button>
             <button type="submit" id="save_btn" className="btn theme-button">
               Save
             </button>
