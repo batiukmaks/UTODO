@@ -3,8 +3,10 @@ import MainHeader from "../../components/MainHeader/MainHeader";
 import Footer from "../../components/Footer/Footer";
 import "../../styles/styles.css";
 import { fetch_data } from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 const UserSettings = () => {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -39,6 +41,17 @@ const UserSettings = () => {
       });
       window.alert("Account updated successfully");
     } catch (error: any) {
+      window.alert(error);
+    }
+  };
+  
+  const deleteAccount = async() => {
+    try {  
+      const result = await fetch_data(`/user/${localStorage.getItem("current_user_id")}`, "DELETE")
+      window.alert("Account deleted successfully");
+      navigate(`/`);
+    }
+    catch (error: any) {
       window.alert(error);
     }
   };
@@ -126,6 +139,9 @@ const UserSettings = () => {
             <div className="d-flex justify-content-between">
               <button type="submit" className="btn theme-button">
                 Save
+              </button>
+              <button type="button" onClick={(e) => deleteAccount()} className="btn danger-button">
+                Delete account
               </button>
             </div>
           </form>
