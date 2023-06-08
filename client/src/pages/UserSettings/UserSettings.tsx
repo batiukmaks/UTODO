@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import MainHeader from "../../components/MainHeader/MainHeader";
 import Footer from "../../components/Footer/Footer";
 import "../../styles/styles.css";
@@ -7,12 +7,13 @@ import { useNavigate } from "react-router-dom";
 
 const UserSettings = () => {
   const navigate = useNavigate();
-  const [firstName, setFirstName] = React.useState("");
-  const [lastName, setLastName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [oldPassword, setOldPassword] = React.useState("");
-  const [newPassword, setNewPassword] = React.useState("");
-  const [confirmNewPassword, setConfirmNewPassword] = React.useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const fetchData = async () => {
     const data = await fetch_data("/user/me", "GET");
@@ -45,21 +46,13 @@ const UserSettings = () => {
     }
   };
 
-  const deleteAccount = () => {
-    const confirmDelete = window.confirm("Are you sure you want to delete your account?");
-    if (confirmDelete) {
-      try {
-        fetch_data(`/user/${localStorage.getItem("current_user_id")}`, "DELETE")
-          .then(() => {
-            window.alert("Account deleted successfully");
-            navigate(`/`);
-          })
-          .catch((error: any) => {
-            window.alert(error);
-          });
-      } catch (error: any) {
-        window.alert(error);
-      }
+  const handleDeleteAccount = async () => {
+    try {
+      await fetch_data(`/user/${localStorage.getItem("current_user_id")}`, "DELETE");
+      window.alert("Account deleted successfully");
+      navigate(`/`);
+    } catch (error: any) {
+      window.alert(error);
     }
   };
 
@@ -144,16 +137,69 @@ const UserSettings = () => {
               </div>
             </div>
             <div className="d-flex justify-content-between">
-              <button type="submit" className="btn theme-button">
-                Save
-              </button>
-              <button type="button" onClick={(e) => deleteAccount()} className="btn danger-button">
-                Delete account
-              </button>
+            <button type="submit" className="btn theme-button">
+              Save
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowDeleteModal(true)}
+              className="btn danger-button"
+            >
+              Delete account
+            </button>
             </div>
           </form>
         </div>
       </main>
+
+      {showDeleteModal && (
+  <div className="modal-backdrop show" style={{ zIndex: 1050 }}></div>
+)}
+<div
+  className={`modal ${showDeleteModal ? "show" : ""}`}
+  id="deleteAccountModal"
+  tabIndex={-1}
+  aria-labelledby="deleteAccountModalLabel"
+  aria-hidden={!showDeleteModal}
+  style={{ display: showDeleteModal ? "block" : "none", zIndex: 1051 }}
+>
+  <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title" id="deleteAccountModalLabel">
+          Delete Account
+        </h5>
+        <button
+          type="button"
+          className="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          onClick={() => setShowDeleteModal(false)}
+        ></button>
+      </div>
+      <div className="modal-body">
+        <p>Are you sure you want to delete your account?</p>
+      </div>
+      <div className="modal-footer">
+        <button
+          type="button"
+          className="btn btn-secondary"
+          data-bs-dismiss="modal"
+          onClick={() => setShowDeleteModal(false)}
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          className="btn btn-danger"
+          onClick={handleDeleteAccount}
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
       <Footer />
     </>
   );
