@@ -5,9 +5,10 @@ import { fetch_data } from "../../utils/api";
 
 interface Props {
   task: TaskInterface;
+  onTaskStatusChange: (taskId: number, newStatus: boolean) => void;
 }
 
-const Task = ({ task }: Props) => {
+const Task = ({ task, onTaskStatusChange }: Props) => {
   const [status, setStatus] = useState(task.done);
 
   const transferData = async () => {
@@ -15,7 +16,9 @@ const Task = ({ task }: Props) => {
       const data = await fetch_data(`/user/tasks/${task.id}`, "PUT", {
         status: status ? "done" : "undone",
       });
-      task.done = data.status === "done";
+      const newStatus = data.status === "done";
+      onTaskStatusChange(task.id, newStatus);
+      task.done = newStatus;
     } catch (error: any) {
       console.log(error.message);
     }
