@@ -44,15 +44,22 @@ const UserSettings = () => {
       window.alert(error);
     }
   };
-  
-  const deleteAccount = async() => {
-    try {  
-      const result = await fetch_data(`/user/${localStorage.getItem("current_user_id")}`, "DELETE")
-      window.alert("Account deleted successfully");
-      navigate(`/`);
-    }
-    catch (error: any) {
-      window.alert(error);
+
+  const deleteAccount = () => {
+    const confirmDelete = window.confirm("Are you sure you want to delete your account?");
+    if (confirmDelete) {
+      try {
+        fetch_data(`/user/${localStorage.getItem("current_user_id")}`, "DELETE")
+          .then(() => {
+            window.alert("Account deleted successfully");
+            navigate(`/`);
+          })
+          .catch((error: any) => {
+            window.alert(error);
+          });
+      } catch (error: any) {
+        window.alert(error);
+      }
     }
   };
 
