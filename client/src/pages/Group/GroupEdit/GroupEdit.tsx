@@ -14,7 +14,7 @@ const GroupEdit = ({ group, setGroup }: Props) => {
   const [newTask, setNewTask] = useState("");
   const navigate = useNavigate()
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
@@ -26,13 +26,22 @@ const GroupEdit = ({ group, setGroup }: Props) => {
       group.description = description;
       setGroup(group);
       if (newTask !== "") {
-        const create_new_task_response = fetch_data(
+        const create_new_task_response = await fetch_data(
           `/groups/${group.id}/tasks`,
           "POST",
           {
             name: newTask,
           }
         );
+        console.log(create_new_task_response)
+        group.tasks.push({
+          id: create_new_task_response.id,
+          group_id: group.id,
+          name: newTask,
+          done: false,
+        });
+        setGroup(group);
+        setNewTask("");
       }
     } catch (error: any) {
       window.alert(error);
@@ -89,7 +98,7 @@ const GroupEdit = ({ group, setGroup }: Props) => {
           </div>
           <div className="d-flex justify-content-between gap-1">
             <button type="button" onClick={(e) => deleteGroup()} className="btn danger-button">
-              Delete account
+              Delete group
             </button>
             <button type="submit" id="save_btn" className="btn theme-button">
               Save

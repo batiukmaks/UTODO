@@ -34,7 +34,7 @@ const Group = () => {
         <Routes>
           <Route index element={<GroupGeneral group={group || default_group} />} />
           <Route path="/tasks" element={<GroupTasks group={group || default_group} />} />
-          <Route path="/members" element={<GroupMembers group={group || default_group} />} />
+          <Route path="/members" element={<GroupMembers group={group || default_group} setGroup={setGroup} />} />
           <Route path="/edit" element={<GroupEdit group={group || default_group} setGroup={setGroup} />} />
         </Routes>
       </div>

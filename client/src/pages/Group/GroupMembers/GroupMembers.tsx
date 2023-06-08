@@ -6,9 +6,10 @@ import { fetch_data } from "../../../utils/api";
 
 interface Props {
   group: GroupInterface;
+  setGroup: (group: GroupInterface) => void;
 }
 
-const GroupMembers = ({ group }: Props) => {
+const GroupMembers = ({ group, setGroup }: Props) => {
   const [newMemberEmail, setNewMemberEmail] = useState("");
   const current_user_id = parseInt(
     localStorage.getItem("current_user_id") ?? ""
@@ -22,6 +23,13 @@ const GroupMembers = ({ group }: Props) => {
       const response = await fetch_data(`/groups/${group.id}/members`, "POST", {
         email: newMemberEmail,
       })
+      group.members.push({
+        email: newMemberEmail,
+        firstName: response.name,
+        lastName: response.surname,
+      });
+      setGroup(group);
+      setNewMemberEmail("");
     } catch (error: any) {
       window.alert(error);
     }
